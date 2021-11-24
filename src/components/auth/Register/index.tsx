@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import InputGroup from "../../common/InputGroup";
 
 interface IRegisterPage {
@@ -7,10 +7,9 @@ interface IRegisterPage {
 }
 
 const RegisterPage = () => {
-    
   const [model, setModel] = useState<IRegisterPage>({
-      name: "",
-      surname: ""
+    name: "",
+    surname: "",
   } as IRegisterPage);
 
   const hadleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,18 +19,39 @@ const RegisterPage = () => {
     });
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("submit data", model);
+  };
+
   return (
     <>
-      <h1>Реєстрація</h1>
-      <form>
-        <InputGroup
-          label="Прізвище"
-          value={model.surname}
-          field="surname"
-          type="text"
-          onChange={hadleChange}
-        />
-      </form>
+      <div className="row">
+        <div className="col-md-6 offset-md-3">
+          <h1 className="text-center">Реєстрація</h1>
+          <form onSubmit={handleSubmit}>
+            <InputGroup
+              label="Прізвище"
+              value={model.surname}
+              field="surname"
+              type="text"
+              onChange={hadleChange}
+            />
+
+            <InputGroup
+              label="Ім'я"
+              value={model.name}
+              field="name"
+              type="text"
+              onChange={hadleChange}
+            />
+
+            <button type="submit" className="btn btn-primary">
+              Реєстрація
+            </button>
+          </form>
+        </div>
+      </div>
     </>
   );
 };
