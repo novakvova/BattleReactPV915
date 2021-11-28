@@ -2,7 +2,7 @@ import { UserAction, UserActionTypes, UserState } from "./list/types";
 import { AddUserAction, UserCreateActionTypes } from "./create/types";
 
 const initialState: UserState = {
-  users: null,
+  users: [],
   loading: false,
   error: null,
 };
@@ -39,7 +39,7 @@ export const userReducer = (
       return {
         ...state,
         loading:false,
-        
+        users: [...state.users, action.payload]
       }
     }
 

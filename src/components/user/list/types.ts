@@ -24,7 +24,7 @@ export enum UserActionTypes {
 }
 
 export interface UserState {
-    users: null|Array<IUserItem>,
+    users: Array<IUserItem>,
     loading: boolean,
     error: null|string
 }
