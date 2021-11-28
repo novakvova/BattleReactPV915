@@ -1,4 +1,5 @@
-import { UserAction, UserActionTypes, UserState } from "./user.types";
+import { UserAction, UserActionTypes, UserState } from "./list/types";
+import { AddUserAction, UserCreateActionTypes } from "./create/types";
 
 const initialState: UserState = {
   users: null,
@@ -8,9 +9,10 @@ const initialState: UserState = {
 
 export const userReducer = (
   state = initialState,
-  action: UserAction
+  action: UserAction | AddUserAction
 ): UserState => {
   switch (action.type) {
+    case UserCreateActionTypes.CREATE_USER: 
     case UserActionTypes.FETCH_USERS: {
       return {
         ...state,
@@ -24,6 +26,7 @@ export const userReducer = (
         users: action.payload,
       };
     }
+    case UserCreateActionTypes.CREATE_USER_ERROR:
     case UserActionTypes.FETCH_USERS_ERROR: {
       return {
         ...state,
@@ -31,6 +34,15 @@ export const userReducer = (
         error: action.payload,
       };
     }
+
+    case UserCreateActionTypes.CREATE_USER_SUCCESS: {
+      return {
+        ...state,
+        loading:false,
+        
+      }
+    }
+
     default:
       return state;
   }
