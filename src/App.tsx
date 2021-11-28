@@ -8,6 +8,9 @@ import DefaultLayout from './components/containers/DefaultLayout';
 import AdminLayout from './components/containers/AdminLayout';
 import NoMatch from './components/NoMatch';
 
+import UsersLayout from './components/containers/UsersLayout';
+import ListUsers from './components/user/list';
+
 function App() {
   return (
     <BrowserRouter>
@@ -17,6 +20,11 @@ function App() {
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
 
+            <Route path="*" element={<NoMatch />} />
+          </Route>
+
+          <Route path="/users" element={<UsersLayout />}>
+            <Route index element={<ListUsers />} />
             <Route path="*" element={<NoMatch />} />
           </Route>
 
