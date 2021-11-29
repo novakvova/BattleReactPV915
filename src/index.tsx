@@ -5,11 +5,15 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
-import { store } from "./store";
+import configureStore from "./store";
+import { history } from "./store/reducers";
+
+
+const store = configureStore();
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+      <App history={history} />
   </Provider>,
 
   document.getElementById("root")

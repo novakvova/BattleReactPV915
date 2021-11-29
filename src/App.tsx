@@ -1,6 +1,6 @@
 
 import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+// import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomePage from './components/Home';
 import LoginPage from './components/auth/Login';
 import RegisterPage from './components/auth/Register';
@@ -10,20 +10,28 @@ import NoMatch from './components/NoMatch';
 
 import UsersLayout from './components/containers/UsersLayout';
 import ListUsers from './components/user/list';
+import { History } from "history";
+import { ConnectedRouter } from "connected-react-router";
+import { Route,Routes  } from "react-router-dom";
 
-function App() {
+interface AppProps {
+  history: History;
+}
+
+const App = ({ history }: AppProps) => {
   return (
-    <BrowserRouter>
+    <ConnectedRouter history={history}>
+    {/* <BrowserRouter> */}
         <Routes>
-          <Route path="/" element={<DefaultLayout />}>
-            <Route index element={<HomePage />} />
+          {/* <Route path="/" element={<DefaultLayout />}> */}
+            <Route path="/" element={<HomePage />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
 
             <Route path="*" element={<NoMatch />} />
-          </Route>
+          {/* </Route> */}
 
-          <Route path="/users" element={<UsersLayout />}>
+          {/* <Route path="/users" element={<UsersLayout />}>
             <Route index element={<ListUsers />} />
             <Route path="*" element={<NoMatch />} />
           </Route>
@@ -32,9 +40,10 @@ function App() {
             <Route index element={<RegisterPage />} />
 
             <Route path="*" element={<NoMatch />} />
-          </Route>
+          </Route> */}
         </Routes>
-    </BrowserRouter>
+    {/* </BrowserRouter> */}
+    </ConnectedRouter>
   );
 }
 
