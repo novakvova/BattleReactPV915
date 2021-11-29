@@ -1,7 +1,7 @@
 export interface IBaseInputProps {
     value: string;
     field: string,
-    type?: "text" | "number",
+    type?: "text" | "number"| "email",
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 

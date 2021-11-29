@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import InputGroup from "../../common/InputGroup";
+import {useActions} from '../../../hooks/useActions';
+import {IRegisterModel} from '../../../types/auth';
 
-interface IRegisterPage {
-  surname: string;
-  name: string;
-}
+
 
 const RegisterPage = () => {
-  const [model, setModel] = useState<IRegisterPage>({
+
+  const {registerUser} = useActions();
+
+  const [model, setModel] = useState<IRegisterModel>({
     name: "",
-    surname: "",
-  } as IRegisterPage);
+    email: "",
+  } as IRegisterModel);
 
   const hadleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setModel({
@@ -21,6 +23,7 @@ const RegisterPage = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    registerUser(model);
     console.log("submit data", model);
   };
 
@@ -31,10 +34,10 @@ const RegisterPage = () => {
           <h1 className="text-center">Реєстрація</h1>
           <form onSubmit={handleSubmit}>
             <InputGroup
-              label="Прізвище"
-              value={model.surname}
+              label="Пошта"
+              value={model.email}
               field="surname"
-              type="text"
+              type="email"
               onChange={hadleChange}
             />
 

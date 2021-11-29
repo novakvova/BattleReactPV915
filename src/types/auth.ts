@@ -14,6 +14,13 @@ export interface IUser {
     image: string
 }
 
+export interface IRegisterModel {
+    name: string;
+    email: string;
+    password: string;
+    password_confirmation: string;
+  }
+
 export interface AuthState {
     user: null|IUser,
     isAuth: boolean,
