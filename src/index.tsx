@@ -6,14 +6,12 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import configureStore from "./store";
-import { history } from "./store/reducers";
-
 
 const store = configureStore();
 
 ReactDOM.render(
   <Provider store={store}>
-      <App history={history} />
+        <App />
   </Provider>,
 
   document.getElementById("root")
