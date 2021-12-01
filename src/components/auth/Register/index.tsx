@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import InputGroup from "../../common/InputGroup";
-import {useActions} from '../../../hooks/useActions';
-import {IRegisterModel} from '../../../types/auth';
+// import {useActions} from '../../../hooks/useActions';
+import {IRegisterModel} from './types';
 
 
 
 const RegisterPage = () => {
 
-  const {registerUser} = useActions();
+  // const {registerUser} = useActions();
 
   const [model, setModel] = useState<IRegisterModel>({
     name: "",
@@ -23,7 +23,7 @@ const RegisterPage = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    registerUser(model);
+    // registerUser(model);
     console.log("submit data", model);
   };
 
