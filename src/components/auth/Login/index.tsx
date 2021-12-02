@@ -15,7 +15,7 @@ const LoginPage = () => {
     error: "",
   };
 
-  const refFormik = useRef() as any;
+  const refFormik = useRef<FormikProps<ILoginModel>>(null);
 
   const initialState: ILoginModel = {
     email: "",
@@ -28,7 +28,6 @@ const LoginPage = () => {
 
   // const handleSubmit = async (e: React.FormEvent) => {
   const handleSubmit = async (values: ILoginModel) => {
-
     setIsSubmitted(true);
 
     try {
@@ -40,10 +39,10 @@ const LoginPage = () => {
     } catch (ex) {
       const serverErrors = ex as LoginError;
       //console.log("refFormik", );
-      if(serverErrors.password.length!=0)
-      refFormik.current.setFieldError("password", serverErrors.password[0]);
-      if(serverErrors.email.length!=0)
-      refFormik.current.setFieldError("email", serverErrors.email[0]);
+      if (serverErrors.password.length != 0)
+        refFormik.current?.setFieldError("password", serverErrors.password[0]);
+      if (serverErrors.email.length != 0)
+        refFormik.current?.setFieldError("email", serverErrors.email[0]);
       console.log("-------", serverErrors.error);
       //setServerErrors(serverErrors);
       //console.log("Login problem", serverErrors);
@@ -57,7 +56,7 @@ const LoginPage = () => {
         <h1 className="text-center">Вхід</h1>
 
         <Formik
-          innerRef = {refFormik}
+          innerRef={refFormik}
           initialValues={initialState}
           validationSchema={validationFields}
           onSubmit={handleSubmit}
@@ -92,14 +91,16 @@ const LoginPage = () => {
                 touched={touched.password}
                 value={values.password}
               />
-              <button type="submit" disabled={isSubmitting} className="btn btn-primary">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="btn btn-primary"
+              >
                 Вхід
               </button>
-              
             </form>
           )}
         </Formik>
-
       </div>
     </div>
   );
