@@ -2,16 +2,18 @@ import Input, { IBaseInputProps } from "./Input";
 
 export interface IBaseInputGroupProps extends IBaseInputProps {
   label: string;
-  errors: Array<string>;
+  error: string | undefined;
+  touched: boolean | undefined;
 }
 
-const InputGroup = ({
+const InputGroupFormik  = ({
   value,
   field,
   onChange,
   label,
-  errors,
-  type = "text",
+  error,
+  touched,
+  type = "text"
 }: IBaseInputGroupProps) => {
   return (
     <div className="mb-3">
@@ -19,13 +21,11 @@ const InputGroup = ({
         {label}
       </label>
       <Input value={value} onChange={onChange} field={field} type={type} />
-      {errors && errors.map((text, key) => {
-          return (
-            <span className="text-danger" key={key}>{text}</span>
-          );
-    })}
+      {!!error && touched &&
+            <span className="text-danger" >{error}</span>
+      }
     </div>
   );
 };
 
-export default InputGroup;
+export default InputGroupFormik;
