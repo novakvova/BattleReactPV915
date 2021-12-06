@@ -7,6 +7,11 @@ export interface ILoginModel {
     password: string
 }
 
+export interface ILoginResponse {
+    access_token: string,
+    expires_in: string
+}
+
 export type LoginError = {
     email: Array<string>, 
     password: Array<string>, 

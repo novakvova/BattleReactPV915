@@ -1,15 +1,16 @@
 export interface IBaseInputProps {
-    value: string;
+    value: string,
     field: string,
+    className?: string,
     type?: "text" | "number"| "email" |"password",
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Input = ({ value, field, onChange, type="text" }: IBaseInputProps) => {
+const Input = ({ value, field, onChange, className="form-control", type="text" }: IBaseInputProps) => {
     return (
         <input 
             onChange={onChange} 
-            className="form-control"
+            className={className}
             value={value}
             name={field}
             id={field}

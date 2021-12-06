@@ -1,19 +1,15 @@
 import { useState, useRef } from "react";
-// import InputGroup from "../../common/InputGroup";
+import { useNavigate } from 'react-router';
 import InputGroupFormik from "../../common/InputGroupFormik";
 import { ILoginModel, LoginError } from "./types";
 import { useActions } from "../../../hooks/useActions";
 import { Formik, Form, FormikProps } from "formik";
 import { validationFields } from "./validation";
 
+
 const LoginPage = () => {
   const { loginUser } = useActions();
-
-  const initialErrors: LoginError = {
-    email: [],
-    password: [],
-    error: "",
-  };
+  const navigator = useNavigate();
 
   const refFormik = useRef<FormikProps<ILoginModel>>(null);
 
@@ -22,7 +18,7 @@ const LoginPage = () => {
     password: "",
   };
 
-  const [serverErrors, setServerErrors] = useState<LoginError>(initialErrors);
+  const [invalid, setInvalid] = useState<string>("");
 
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
@@ -34,18 +30,24 @@ const LoginPage = () => {
       console.log("Login begin");
       await loginUser(values);
       console.log("Login end");
+      navigator("/");
       setIsSubmitted(false);
-      //navigator("/");
     } catch (ex) {
       const serverErrors = ex as LoginError;
-      //console.log("refFormik", );
-      if (serverErrors.password.length != 0)
-        refFormik.current?.setFieldError("password", serverErrors.password[0]);
-      if (serverErrors.email.length != 0)
-        refFormik.current?.setFieldError("email", serverErrors.email[0]);
-      console.log("-------", serverErrors.error);
-      //setServerErrors(serverErrors);
-      //console.log("Login problem", serverErrors);
+      Object.entries(serverErrors).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+          let message = "";
+          value.forEach((item) => {
+            message += `${item} `;
+          });
+          refFormik.current?.setFieldError(key, message);
+        }
+      });
+      
+      if(serverErrors.error)
+      {
+        setInvalid(serverErrors.error);
+      }
       setIsSubmitted(false);
     }
   };
@@ -54,7 +56,7 @@ const LoginPage = () => {
     <div className="row">
       <div className="col-md-6 offset-md-3">
         <h1 className="text-center">Вхід</h1>
-
+        {invalid && <div className="alert alert-danger">{invalid}</div>}
         <Formik
           innerRef={refFormik}
           initialValues={initialState}

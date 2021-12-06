@@ -18,12 +18,21 @@ const InputGroup = ({
       <label htmlFor={field} className="form-label">
         {label}
       </label>
-      <Input value={value} onChange={onChange} field={field} type={type} />
-      {errors && errors.map((text, key) => {
+      <Input
+        value={value}
+        onChange={onChange}
+        field={field}
+        type={type}
+        className="form-control"
+      />
+      {errors &&
+        errors.map((text, key) => {
           return (
-            <span className="text-danger" key={key}>{text}</span>
+            <span className="text-danger" key={key}>
+              {text}
+            </span>
           );
-    })}
+        })}
     </div>
   );
 };
