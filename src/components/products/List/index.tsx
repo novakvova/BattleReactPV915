@@ -1,18 +1,24 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useActions } from "../../../hooks/useActions";
 import { useTypedSelector } from "../../../hooks/useTypedSelector";
 import { ISearchProduct } from "../types";
 
 const ProductsListPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const { products } = useTypedSelector((store) => store.product);
+  const { products, per_page } = useTypedSelector((store) => store.product);
   const { fetchProducts } = useActions();
+
   useEffect(() => {
     async function getProducts() {
       setLoading(true);
       try {
+        const url = window.location.search;
+        const params = new URLSearchParams(url); // id=123
+        let page = params?.get("page") ?? 1;
+        console.log(page);
         const search: ISearchProduct = {
-          page: 2,
+          page: page,
         };
         await fetchProducts(search);
         setLoading(false);
@@ -22,6 +28,12 @@ const ProductsListPage: React.FC = () => {
     }
     getProducts();
   }, []);
+
+  const buttons = [];
+  for (var i =1; i<=per_page; i++) {
+    buttons.push(i);
+      
+  }
 
   return (
     <>
@@ -47,6 +59,11 @@ const ProductsListPage: React.FC = () => {
           })}
         </tbody>
       </table>
+      { buttons.map((item, key)=> {
+          return (
+            <Link key={key} to={'/products/list?page='+item} className="btn btn-success">{item}</Link>
+          );
+      }) }
     </>
   );
 };

@@ -8,10 +8,13 @@ export const fetchProducts = (search: ISearchProduct) => {
       const response = await http.get<IProductsResponse>("api/products", {
         params: search
       });
-      const { data } = response.data;
+      const { data, per_page } = response.data;
       dispatch({
         type: ProductsActionTypes.FETCH_PRODUCTS,
-        payload: data,
+        payload: {
+          per_page: per_page,
+          products: data
+        },
       });
       return Promise.resolve();
     } catch (ex) {

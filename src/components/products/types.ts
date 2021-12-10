@@ -10,22 +10,23 @@ export interface IProductItem {
 
 export interface IProductsResponse {
     current_page: number;
-    from: number;
+    per_page: number;
     data: Array<IProductItem>;
 }
 
 export interface ISearchProduct {
-    page: number
+    page: number|string
 }
 
 export interface ProductsState {
     products: Array<IProductItem>;
+    per_page: number;
 }
 
 
 export interface FetchProductsAction {
     type: ProductsActionTypes.FETCH_PRODUCTS,
-    payload: Array<IProductItem>
+    payload: ProductsState
 }
 
 export type ProductActions = FetchProductsAction;
