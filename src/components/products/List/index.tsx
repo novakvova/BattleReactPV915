@@ -8,6 +8,23 @@ const ProductsListPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const { products, per_page } = useTypedSelector((store) => store.product);
   const { fetchProducts } = useActions();
+  const [page, setPage] = useState(1);
+  useEffect(() => {
+    async function getProducts() {
+        setLoading(true);
+        try {
+          const search: ISearchProduct = {
+            page: page,
+          };
+          await fetchProducts(search);
+          setLoading(false);
+        } catch (ex) {
+          setLoading(false);
+        }
+      }
+      getProducts();
+  }, [page]);
+
 
   useEffect(() => {
     async function getProducts() {
@@ -15,7 +32,7 @@ const ProductsListPage: React.FC = () => {
       try {
         const url = window.location.search;
         const params = new URLSearchParams(url); // id=123
-        let page = params?.get("page") ?? 1;
+        const page = params?.get("page") ?? 1;
         console.log(page);
         const search: ISearchProduct = {
           page: page,
@@ -30,9 +47,8 @@ const ProductsListPage: React.FC = () => {
   }, []);
 
   const buttons = [];
-  for (var i =1; i<=per_page; i++) {
+  for (var i = 1; i <= per_page; i++) {
     buttons.push(i);
-      
   }
 
   return (
@@ -59,11 +75,18 @@ const ProductsListPage: React.FC = () => {
           })}
         </tbody>
       </table>
-      { buttons.map((item, key)=> {
-          return (
-            <Link key={key} to={'/products/list?page='+item} className="btn btn-success">{item}</Link>
-          );
-      }) }
+      {buttons.map((item, key) => {
+        return (
+          <Link
+          onClick={()=>{setPage(item);}}
+            key={key}
+            to={"/products/list?page=" + item}
+            className="btn btn-success"
+          >
+            {item}
+          </Link>
+        );
+      })}
     </>
   );
 };
