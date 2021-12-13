@@ -1,21 +1,23 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useActions } from "../../../hooks/useActions";
 import { useTypedSelector } from "../../../hooks/useTypedSelector";
 import { ISearchProduct } from "../types";
+import qs from 'qs';
 
 const ProductsListPage: React.FC = () => {
+  const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState<boolean>(false);
-  const { products, per_page } = useTypedSelector((store) => store.product);
+  const { products, last_page } = useTypedSelector((store) => store.product);
   const { fetchProducts } = useActions();
-  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState<ISearchProduct>({
+    page: searchParams.get("page"),
+    name: searchParams.get("name")
+  });
   useEffect(() => {
     async function getProducts() {
         setLoading(true);
         try {
-          const search: ISearchProduct = {
-            page: page,
-          };
           await fetchProducts(search);
           setLoading(false);
         } catch (ex) {
@@ -23,31 +25,10 @@ const ProductsListPage: React.FC = () => {
         }
       }
       getProducts();
-  }, [page]);
-
-
-  useEffect(() => {
-    async function getProducts() {
-      setLoading(true);
-      try {
-        const url = window.location.search;
-        const params = new URLSearchParams(url); // id=123
-        const page = params?.get("page") ?? 1;
-        console.log(page);
-        const search: ISearchProduct = {
-          page: page,
-        };
-        await fetchProducts(search);
-        setLoading(false);
-      } catch (ex) {
-        setLoading(false);
-      }
-    }
-    getProducts();
-  }, []);
+  }, [search]);
 
   const buttons = [];
-  for (var i = 1; i <= per_page; i++) {
+  for (var i = 1; i <= last_page; i++) {
     buttons.push(i);
   }
 
@@ -76,11 +57,17 @@ const ProductsListPage: React.FC = () => {
         </tbody>
       </table>
       {buttons.map((item, key) => {
+
+        const page : ISearchProduct = {
+          ...search,
+          page: item
+        } 
+
         return (
           <Link
-          onClick={()=>{setPage(item);}}
+          onClick={()=>{setSearch(page);}}
             key={key}
-            to={"/products/list?page=" + item}
+            to={"?" + qs.stringify(page)}
             className="btn btn-success"
           >
             {item}
