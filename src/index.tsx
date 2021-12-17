@@ -1,5 +1,7 @@
 import "bootstrap/dist/css/bootstrap.css";
 import "font-awesome/css/font-awesome.min.css";
+import "bootstrap/dist/js/bootstrap.bundle";
+import "cropperjs/dist/cropper.css";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
